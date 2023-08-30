@@ -1,5 +1,6 @@
 import openai
 import sys
+import logging
 
 class ChatGPT:
     def send(self, prompt):
@@ -8,6 +9,7 @@ class ChatGPT:
           model="gpt-3.5-turbo",
           message=[{"role":"user", "content":prompt}],
           max_token=2000)
+       return openai_result.choices[0].message.content
      except openai.error.Timeout as e:
         #Handle timeout error, e.g. retry or log
         print(f"OpenAI API request timed out: {e}")
@@ -36,8 +38,9 @@ class ChatGPT:
         #Handle rate limit error, e.g. wait or log
         print(f"OpenAI API request exceeded rate limit: {e}")
         pass
+     return "AI connection error"
 
-     return openai_result.choices[0].message.content
+     
 
 class Chat:
  def __init__(self, chat):
