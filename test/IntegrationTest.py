@@ -13,7 +13,6 @@ import time
 from MockClasses import MockChatGPT
 from ChatGPTInterface import Chat
 from TestFunctions import send_post_request, get_response
-import logging
 
 #Integration testcase
 #Test MyChatbot and Chat interface once
@@ -43,5 +42,4 @@ class IntegrationTest1(asynctest.TestCase):
             time.sleep(0.1)   
             response = get_response()
             assert response.status_code == 200, "Bad status code in get"
-            logging.warning(response.content)
             assert response.content == b'{"message":["0","1","2","3","4","5","6","7","8","9"]}', "Bad response in get"

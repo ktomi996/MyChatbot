@@ -16,7 +16,6 @@ import time
 from MockClasses import MockChat
 from TestFunctions import send_post_request, get_response
 from MockClasses import MockChatGPT
-import logging
 
 #Test the post and get methods from MyChatbot: get_method and post_method
 class OuterChatApiTestPostAndGetMethods(TestCase):
@@ -64,6 +63,5 @@ class OuterChatApiTestHTTPReqs(asynctest.TestCase):
                 assert response.status_code == 200, "Bad status code in post"
             time.sleep(0.1)
             response = get_response()
-            logging.warning(response.content)   
             assert response.status_code == 200, "Bad status code in get"
             assert response.content == b'{"message":["0","1","2","3","4","5","6","7","8","9"]}', "Bad response in get"
