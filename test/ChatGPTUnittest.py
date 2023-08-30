@@ -4,7 +4,7 @@ from unittest import TestCase
 from ChatGPTInterface import Chat
 from MockClasses import MockChatGPT
 
-
+#Unittest for Chat interface
 class ChatTest(TestCase):
     def setUp(self):
         self.chat = Chat(MockChatGPT())

@@ -2,6 +2,7 @@ import openai
 import sys
 import logging
 
+#Interface for ChatGPT
 class ChatGPT:
     def send(self, prompt):
      try:
@@ -41,12 +42,13 @@ class ChatGPT:
      return "AI connection error"
 
      
-
+#Interface for outer Chat application
 class Chat:
  def __init__(self, chat):
    try:
      open_api_key_file = open('api_key.txt', 'r')
      openai.api_key = open_api_key_file.readline().replace("\n", "")
+     open_api_key_file.close()
      self.chat = chat
    except FileNotFoundError:
      print("api_key.text not found. Please save your opeani key in api_key.txt file and place it next to the executable")

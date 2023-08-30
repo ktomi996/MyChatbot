@@ -15,7 +15,8 @@ from ChatGPTInterface import Chat
 from TestFunctions import send_post_request, get_response
 import logging
 
-
+#Integration testcase
+#Test MyChatbot and Chat interface once
 class IntegrationTest1(asynctest.TestCase):
         async def setUp(self):
             self.my_outer_chat_ai = Chat(MockChatGPT())

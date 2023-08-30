@@ -18,7 +18,7 @@ from TestFunctions import send_post_request, get_response
 from MockClasses import MockChatGPT
 import logging
 
-
+#Test the post and get methods from MyChatbot: get_method and post_method
 class OuterChatApiTestPostAndGetMethods(TestCase):
     def setUp(self):
         self.my_outer_chat_ai = MockChat()
@@ -34,6 +34,8 @@ class OuterChatApiTestPostAndGetMethods(TestCase):
         result = self.app.get_method()
         assert result["message"] == ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'], "Bad result"
 
+
+#Testing MyChatbot with http requests
 class OuterChatApiTestHTTPReqs(asynctest.TestCase):
         async def setUp(self):
             self.my_outer_chat_ai = MockChat()
