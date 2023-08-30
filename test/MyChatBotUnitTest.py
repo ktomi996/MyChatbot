@@ -15,6 +15,8 @@ import uvicorn
 import time
 from MockClasses import MockChat
 from TestFunctions import send_post_request, get_response
+from MockClasses import MockChatGPT
+import logging
 
 
 class OuterChatApiTestPostAndGetMethods(TestCase):
@@ -34,7 +36,7 @@ class OuterChatApiTestPostAndGetMethods(TestCase):
 
 class OuterChatApiTestHTTPReqs(asynctest.TestCase):
         async def setUp(self):
-            self.my_outer_chat_ai = MockChatGPT()
+            self.my_outer_chat_ai = MockChat()
             self.security = HTTPBasic()
             self.app = MyChatbot(self.my_outer_chat_ai)
             self.proc = Process(target=uvicorn.run,
@@ -53,9 +55,13 @@ class OuterChatApiTestHTTPReqs(asynctest.TestCase):
 
 
         def test_get_and_post_method(self):
+            username = "name"
+            passwd   = "passwd"
             for i in range(0,10):
-                response = send_post_request(str(i))
+                response = send_post_request(str(i), username, passwd)
                 assert response.status_code == 200, "Bad status code in post"
-            time.sleep(0.1)   
+            time.sleep(0.1)
+            response = get_response()
+            logging.warning(response.content)   
             assert response.status_code == 200, "Bad status code in get"
             assert response.content == b'{"message":["0","1","2","3","4","5","6","7","8","9"]}', "Bad response in get"
