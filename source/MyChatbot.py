@@ -2,6 +2,7 @@ from fastapi import Depends, FastAPI, APIRouter
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from typing_extensions import Annotated
 from pydantic import BaseModel
+from collections import deque
 
 class GreetingModel(BaseModel):
     texts: str
@@ -27,8 +28,9 @@ class MyChatbot():
     def post_method(self, text: GreetingModel, credentials: Annotated[HTTPBasicCredentials, Depends(security)]):
         print(credentials)
         self.msg_box.append(text.texts)
-        if len(self.msg_box) == 10:
-           self.result = self.out_chat_api.send_prompts(self.msg_box)
+        if len(self.msg_box) > 10:
+           self.msg_box.popleft()
+           self.result = self.out_chat_api.send_prompts(list(self.msg_box))
            self.msg_box = []
         return {"status": 200, "username": credentials.username, "password": credentials.password}
 
@@ -45,7 +47,7 @@ class MyChatbot():
        self.out_chat_api = outer_chat_api
        self.router = APIRouter()
        self.security = HTTPBasic()
-       self.msg_box = list()
+       self.msg_box = deque()
        self.result = []
        self.add_get_endpoint("/get_chatgpt_responses", self.get_method)
        self.add_post_endpoint("/post_endpoint", self.post_method)
