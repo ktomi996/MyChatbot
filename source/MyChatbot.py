@@ -19,9 +19,11 @@ security = HTTPBasic()
 class MyChatbot():
     #Callback for /get_chatgpt_responses get endpoint
     def get_method(self):
-         if self.result == []:
+         if len(self.msg_box) == 0:
             return {"message": "No message has been send to outer Chat AI yet"}
          else:
+            self.result = self.out_chat_api.send_prompts(list(self.msg_box))
+            self.msg_box = []
             return {"message": self.result}
 
     #Callback for /post_endpoint
@@ -30,8 +32,6 @@ class MyChatbot():
         self.msg_box.append(text.texts)
         if len(self.msg_box) > 10:
            self.msg_box.popleft()
-           self.result = self.out_chat_api.send_prompts(list(self.msg_box))
-           self.msg_box = []
         return {"status": 200, "username": credentials.username, "password": credentials.password}
 
     #Add GET http request endpoint
